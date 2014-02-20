@@ -1,0 +1,30 @@
+{
+  "name": "x-log",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "winston": "0.5.10",
+    "cycle": "~1.0",
+    "x-common": "~0.0",
+    "x-configs": "~0.0"
+  },
+  "description": "simple log utility used by x-x.io x-components, produces a daily json log",
+  "keywords": [
+    "x-x",
+    "x-component",
+    "logging"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/x-component/x-common.git"
+  },
+  "devDependencies": {
+    "vows": "~0.7",
+    "markdox": "~0.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "markdox -o ./README.md ./index.js ./logger.js ./rotating.js",
+    "test": "vows ./test/*.test.js"
+  }
+}
