@@ -1,5 +1,5 @@
-![Build Status](https://travis-ci.org/x-component/x-log.png?v0.0.2)
-===================================================================
+[![Build Status](https://travis-ci.org/x-component/x-log.png?v0.0.3)](https://travis-ci.org/x-component/x-log)
+=======================================================================================================
 
 
 
