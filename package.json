@@ -1,7 +1,9 @@
 {
   "name": "x-log",
   "version": "0.0.4",
-  "license": "MIT",
+  "license": {
+    "type": "MIT"
+  },
   "dependencies": {
     "winston": "0.5.10",
     "cycle": "~1.0",
@@ -20,11 +22,20 @@
   },
   "devDependencies": {
     "vows": "~0.7",
-    "dox-basic": "~0.0"
+    "dox-basic": "~0.0",
+    "projectz": "~0.3"
   },
   "main": "index.js",
   "scripts": {
-    "prepublish": "cat ./index.js ./logger.js ./rotating.js | node ./node_modules/dox-basic/bin/dox-basic -m -t \"[![Build Status](https://travis-ci.org/x-component/$npm_package_name.png?v$npm_package_version)](https://travis-ci.org/x-component/$npm_package_name)\" > README.md",
+    "prepublish": "cat ./index.js ./logger.js ./rotating.js | node ./node_modules/dox-basic/bin/dox-basic -m -t \"[![Build Status](https://travis-ci.org/x-component/$npm_package_name.png?v$npm_package_version)](https://travis-ci.org/x-component/$npm_package_name)\" > README.md; node ./node_modules/projectz/bin/projectz compile",
     "test": "vows ./test/*.test.js"
+  },
+  "author": "",
+  "maintainers": [
+    ""
+  ],
+  "contributors": [],
+  "bugs": {
+    "url": "https://github.com/x-component/x-log/issues"
   }
 }
