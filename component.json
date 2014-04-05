@@ -1,6 +1,6 @@
 {
   "name": "x-log",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "description": "simple log utility used by x-x.io x-components, produces a daily json log",
   "keywords": [

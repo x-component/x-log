@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/x-component/x-log.png?v0.0.5)](https://travis-ci.org/x-component/x-log)
+[![Build Status](https://travis-ci.org/x-component/x-log.png?v0.0.6)](https://travis-ci.org/x-component/x-log)
 =======================================================================================================
 
 
