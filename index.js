@@ -81,16 +81,32 @@
  * create a distinct daily logfile for each worker.
  */
 
+//use x-env
+//
 var
-	winston         = require('winston'),
-	cycle           = require('cycle'),
+	process         = require('x-process'),
+	noop            = function(){},
+	browser         = process.browser,
+	winston         = !browser?  require('winston') : {
+		setLevels        : noop, // obj name->#
+		add              : noop, // transport
+		remove           : noop, // transport
+		handleExceptions : noop, // our generic handler
+		debug : noop,           //
+		info  : noop,            //
+		warn  : noop,            //
+		error : noop,            //
+		transports : { Console:noop }
+	},
+	
+	cycle           = !browser ? require('cycle') : { decycle:function(o){return o;} },
 	flatten         = require('x-common').flatten,
 	merge           = require('x-common').merge,
 	pluck           = require('x-common').pluck,
-	RotatingLogFile = require('./rotating'),
+	RotatingLogFile = !browser ? require('./rotating') : noop ,
 	config          = require('x-configs')(__dirname+'/config'),
 	env             = process.env.NODE_ENV||'development',
-	development     = -1!==env.indexOf('development');
+	development     = ~env.indexOf('development');
 
 
 var sort = function(o){
@@ -174,6 +190,21 @@ config.console=merge({},config.global,config.console); // merge global in consol
 config.console.stringify=config.console.stringify||stringify(config.console);
 
 var _console_on=true;
+
+//----------CONSOLE-BROWSER------------------------------------------
+if(browser){
+	(function(config){
+		var str=stringify(config);
+		for(var l in config.levels ){
+			winston[l]=(function(level){ return function ( msg, meta ){
+				if(!_console_on) return;
+				if(typeof(msg)==='object'){ meta=msg; msg=void 0; }
+				console[level](str(merge({},meta,{timestamp:config.timestamp(),level:level},msg?{message:msg}:{})));
+			};})(l);
+		}
+	})(config.console);
+}
+
 function use_console(on){
 	if(_console_on!=on){
 		if (on) {

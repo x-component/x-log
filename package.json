@@ -8,7 +8,8 @@
     "winston": "0.5.10",
     "cycle": "~1.0",
     "x-common": "~0.0",
-    "x-configs": "~0.0"
+    "x-configs": "~0.0",
+    "x-process": "~0.0"
   },
   "description": "simple log utility used by x-x.io x-components, produces a daily json log",
   "keywords": [
@@ -21,14 +22,13 @@
     "url": "https://github.com/x-component/x-log.git"
   },
   "devDependencies": {
-    "vows": "~0.7",
-    "dox-basic": "~0.0",
-    "projectz": "~0.3"
+    "x-publish": "~0.0",
+    "x-test": "~0.0"
   },
   "main": "index.js",
   "scripts": {
-    "prepublish": "cat ./index.js ./logger.js ./rotating.js | node ./node_modules/dox-basic/bin/dox-basic -m -t \"[![Build Status](https://travis-ci.org/x-component/$npm_package_name.png?v$npm_package_version)](https://travis-ci.org/x-component/$npm_package_name)\" > README.md; node ./node_modules/projectz/bin/projectz compile",
-    "test": "vows ./test/*.test.js"
+    "prepublish": "./node_modules/x-publish/scripts/prepublish.sh ./index.js ./logger.js ./rotating.js",
+    "test": "./node_modules/x-test/scripts/test.sh ./test"
   },
   "author": "",
   "maintainers": [
