@@ -10,7 +10,8 @@
   ],
   "dependencies": {
     "x-component/x-common": "*",
-    "x-component/x-configs": "*"
+    "x-component/x-configs": "*",
+    "x-component/x-cycle": "*"
   },
   "main": "index.js",
   "scripts": [
