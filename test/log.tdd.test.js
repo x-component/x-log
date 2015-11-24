@@ -5,11 +5,12 @@ var verbose = false ; // true;
 require('x-test').vows(suite,test,suiteSetup,suiteTeardown); // support mixing tdd with vows like tests
 
 var
-	assert = require('assert'),
-	log    = require('../index'),
-	fs     = require('fs'),
-	path   = require('path');
-
+	assert  = require('assert'),
+	log     = require('../index'),
+	fs      = require('fs'),
+	path    = require('path'),
+	sinon   = require('sinon'),
+	winston = require('winston');
 
 log.console(verbose);
 
@@ -39,9 +40,7 @@ suite.addBatch({
 suite.addBatch({
 	'rotation': {
 		topic : function(){
-			var
-				self            = this,
-				RotatingLogFile = require('../rotating');
+			var self            = this;
 			
 			var
 				filename = path.join(__dirname,'log-test-rotating.log'),
@@ -53,7 +52,7 @@ suite.addBatch({
 			var
 				result = {
 					timeSpan  : timeSpan,
-					logger    : new RotatingLogFile({filename : filename, timeSpan:timeSpan }),
+					logger    : new (winston.transports.DailyRotateFile)({filename: filename, datePattern: '.yyyy-MM-dd.log' }),
 					basename  : basename,
 					dirname   : dirname,
 					files     : function(cb){ // read current used file names and content
@@ -86,7 +85,8 @@ suite.addBatch({
 								}
 							});
 						});
-					}
+					},
+					clock : sinon.useFakeTimers()
 				};
 			result.files(function(files){
 				for( var f in files) fs.unlinkSync(path.join(dirname,f));
@@ -96,7 +96,6 @@ suite.addBatch({
 		'log':{
 			topic: function(topic){
 				var self=this;
-				// after the next flush TEST-2 is written to file and we can check where it landed
 				topic.logger.once('flush',function(){
 					self.callback(topic);
 				});
@@ -116,15 +115,13 @@ suite.addBatch({
 			'await new period':{
 				topic:function(topic){
 					var self = this;
-					if(this.timeout){this.timeout(topic.timeSpan+2000);} //<---- mocha migration
-					setTimeout( function(){
-						// after the next flush TEST-2 is written to file and we can check where it landed
-						topic.logger.once('flush',function(){
-							self.callback(topic);
-						});
-						topic.logger.options.highWaterMark=10;
-						topic.logger.log('info', 'TEST-2',{},function(){});
-					},topic.timeSpan+1);
+					topic.clock.tick(24 * 60 * 60 * 1000 + 30 * 60 * 1000); // 24h + 30min
+					// after the next flush TEST-2 is written to file and we can check where it landed
+					topic.logger.once('flush',function(){
+						self.callback(topic);
+					});
+					topic.logger.options.highWaterMark=10;
+					topic.logger.log('info', 'TEST-2',{},function(){});
 				},
 				'check second new file':{ topic: function(topic){ topic.files(this.callback); },
 					'second exists':function(files){ 

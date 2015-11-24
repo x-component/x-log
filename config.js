@@ -8,9 +8,9 @@ var generic = {
 		level : 'info' // one of debug,info,warn,error
 	},
 	file : {
-		filename : __dirname + '/logs/node.log',
-		timeSpan : 24*60*60*1000,  // 24 hours UTC log rotation
-		format   : 'sorted'
+		filename   : __dirname + '/logs/node.log',
+		pattern    : '.yyyy-MM-dd.%s.log',
+		format     : 'sorted'
 	},
 	console : {
 		on : false,

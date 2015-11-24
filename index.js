@@ -103,11 +103,12 @@ var
 	flatten         = require('x-common').flatten,
 	merge           = require('x-common').merge,
 	pluck           = require('x-common').pluck,
-	RotatingLogFile = !browser ? require('./rotating') : noop ,
+	//RotatingLogFile = !browser ? require('./rotating') : noop ,
 	config          = require('x-configs')(__dirname+'/config'),
 	env             = process.env.NODE_ENV||'development',
-	development     = ~env.indexOf('development');
-
+	development     = ~env.indexOf('development'),
+	
+	suffix          = 0;
 
 var sort = function(o){
 	
@@ -182,7 +183,8 @@ function stringify(config){
 config.file=merge({},config.global,config.file); // merge global in file config
 config.file.stringify=config.file.stringify||stringify(config.file);
 
-var file_logger = new RotatingLogFile(config.file);
+
+var file_logger = new(winston.transports.DailyRotateFile)(config.file);
 winston.add(file_logger, null, true);
 
 //----------CONSOLE------------------------------------------
@@ -303,10 +305,20 @@ var M=module.exports={
 	},
 	
 	file:{
-		get suffix()  { return file_logger.suffix; },
-		set suffix(v) { file_logger.suffix = v; },
+		get suffix()  { return suffix; },
+		set suffix(v) {
+			suffix = v;
+			var pattern = config.file.pattern || '.yyyy-MM-dd.%s.log';
+			config.file.datePattern = pattern.replace(/%s/, suffix);
+			winston.remove(file_logger);
+			file_logger = new(winston.transports.DailyRotateFile)(config.file);
+			winston.add(file_logger, null, true);
+		},
 		
-		get name()    { return file_logger.fullname; },
+		get name() {
+			var name = path.resolve(file_logger.dirname + '/' + file_logger.filename + file_logger.getFormattedDate());
+			return name;
+		},
 		
 		get _logger()  { return file_logger; } // for testing purposes
 	},

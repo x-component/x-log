@@ -1,15 +1,15 @@
 {
   "name": "x-log",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "license": {
     "type": "MIT"
   },
   "dependencies": {
-    "winston": "0.5.10",
-    "cycle": "~1.0",
-    "x-common": "~0.0",
-    "x-configs": "~0.0",
-    "x-process": "~0.0"
+    "winston"  : "^0.8.3",
+    "cycle"    : "~1.0",
+    "x-common" : "1.x.x",
+    "x-configs": "1.x.x",
+    "x-process": "1.x.x"
   },
   "description": "simple log utility used by x-x.io x-components, produces a daily json log",
   "keywords": [
@@ -22,12 +22,13 @@
     "url": "https://github.com/x-component/x-log.git"
   },
   "devDependencies": {
-    "x-publish": "~0.0",
-    "x-test": "~0.0"
+    "x-publish": "1.x.x",
+    "x-test"   : "1.x.x",
+    "sinon"    : "latest"
   },
   "main": "index.js",
   "scripts": {
-    "prepublish": "./node_modules/x-publish/scripts/prepublish.sh ./index.js ./logger.js ./rotating.js",
+    "prepublish": "./node_modules/x-publish/scripts/prepublish.sh",
     "test": "./node_modules/x-test/scripts/test.sh ./test"
   },
   "author": "",
