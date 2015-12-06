@@ -84,6 +84,7 @@
 //use x-env
 //
 var
+	path            = require('path'),
 	process         = require('x-process'),
 	noop            = function(){},
 	browser         = process.browser,
