@@ -1,13 +1,13 @@
 {
   "name": "x-log",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": {
     "type": "MIT"
   },
   "dependencies": {
-    "winston"  : "^0.8.3",
-    "cycle"    : "~1.0",
-    "x-common" : "1.x.x",
+    "winston": "^0.8.3",
+    "cycle": "~1.0",
+    "x-common": "1.x.x",
     "x-configs": "1.x.x",
     "x-process": "1.x.x"
   },
@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "x-publish": "1.x.x",
-    "x-test"   : "1.x.x",
-    "sinon"    : "latest"
+    "x-test": "1.x.x",
+    "sinon": "latest"
   },
   "main": "index.js",
   "scripts": {
